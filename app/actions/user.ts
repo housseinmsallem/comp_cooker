@@ -47,5 +47,12 @@ export const signUpAction = async (formData: FormData) => {
     }
   }
   const user = await createUser(data.name, data.email, data.password)
+  if (!user) {
+    return {
+      success: false,
+      message: 'User creation failed',
+      error: 'User creation failed',
+    }
+  }
   
 }
