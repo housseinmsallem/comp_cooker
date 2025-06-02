@@ -1,15 +1,22 @@
-import { integer, pgTable, serial, time, varchar } from 'drizzle-orm/pg-core'
+import {
+  integer,
+  pgTable,
+  serial,
+  text,
+  time,
+  varchar,
+} from 'drizzle-orm/pg-core'
 
 export const usersTable = pgTable('users', {
-  id: serial().primaryKey(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull().unique(),
   email: varchar({ length: 255 }).notNull().unique(),
-  password: varchar({ length: 255 }).notNull(),
+  password: text('password').notNull(),
   raidId: integer().references(() => raidsTable.id),
 })
 
 export const raidsTable = pgTable('raids', {
-  id: serial().primaryKey(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
   time: time(),
 })

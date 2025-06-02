@@ -1,8 +1,12 @@
 import { eq } from 'drizzle-orm'
 import { db } from './index.js'
 import { raidsTable, usersTable } from './schema.js'
-
+import { nanoid } from 'nanoid'
 async function main() {
+  const usersTest = await db.select().from(usersTable)
+  const raidsTest = await db.select().from(raidsTable)
+  console.log('Getting all users from the database: ', usersTest)
+  console.log('Getting all raids', raidsTest)
   const user: typeof usersTable.$inferInsert = {
     name: 'sakneder',
     password: 'hello',
