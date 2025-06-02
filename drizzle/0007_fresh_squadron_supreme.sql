@@ -1,0 +1,1 @@
+ALTER TABLE "characters" ADD COLUMN "role" varchar(255);
