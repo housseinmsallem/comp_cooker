@@ -4,19 +4,19 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Sword, Shield, Zap } from 'lucide-react'
 import { Star } from 'lucide-react'
-interface PlayerCardProps {
+export interface RaidCardProps {
   name?: string
   description?: string
-  role?: string
+  game?: string
   tier?: string
 }
 
-export default function PlayerCard({
+export default function RaidCard({
   name = 'Default',
   description = 'Figure it out.',
-  role = 'Default role',
+  game = 'Default role',
   tier = 'Default tier',
-}: PlayerCardProps) {
+}: RaidCardProps) {
   return (
     <div className="bg-slate-800 w-80 h-64 rounded-xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
       <div className="p-6 h-full flex flex-col justify-between">
@@ -26,7 +26,7 @@ export default function PlayerCard({
               {name}
             </h3>
             <span className="bg-sky-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-              {role}
+              {game}
             </span>
           </div>
           <p className="text-slate-400 text-sm mb-6 line-clamp-3">

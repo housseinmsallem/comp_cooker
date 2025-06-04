@@ -1,12 +1,8 @@
 import { eq } from 'drizzle-orm'
 import { db } from './index.js'
-import { raidsTable, usersTable } from './schema.js'
+import { characterTable, raidsTable, usersTable } from './schema.js'
 import { nanoid } from 'nanoid'
 async function main() {
-  const usersTest = await db.select().from(usersTable)
-  const raidsTest = await db.select().from(raidsTable)
-  console.log('Getting all users from the database: ', usersTest)
-  console.log('Getting all raids', raidsTest)
   const user: typeof usersTable.$inferInsert = {
     name: 'sakneder',
     password: 'hello',
@@ -14,15 +10,30 @@ async function main() {
   }
   const raid: typeof raidsTable.$inferInsert = {
     name: 'Onyxia raid',
-    time: '00:00',
+    game: 'Albion Online',
   }
+  const char: typeof characterTable.$inferInsert = {
+    name: 'HallowFall',
+    description: 'Heal frontline',
+    role: 'Healer',
+    tier: 'Tier S',
+    raidId: 1,
+  }
+  await db.delete(usersTable)
+  await db.delete(raidsTable)
+  await db.delete(characterTable)
   await db.insert(usersTable).values(user)
   console.log('New user created!')
   await db.insert(raidsTable).values(raid)
+  console.log('New raid created!')
+  await db.insert(characterTable).values(char)
+  console.log('New Char created!')
   const users = await db.select().from(usersTable)
   const raids = await db.select().from(raidsTable)
+  const chars = await db.select().from(characterTable)
   console.log('Getting all users from the database: ', users)
   console.log('Getting all raids', raids)
+  console.log('Getting all characters', chars)
   /*
   const users: {
     id: number;

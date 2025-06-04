@@ -57,6 +57,13 @@
       "when": 1748877799528,
       "tag": "0007_fresh_squadron_supreme",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1748887917169,
+      "tag": "0008_powerful_morg",
+      "breakpoints": true
     }
   ]
 }
