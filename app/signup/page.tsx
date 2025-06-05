@@ -33,7 +33,7 @@ const SignUpPage = () => {
       const result = await signUpAction(formData)
       if (result.success) {
         toast.success('Account created successfully')
-        router.push('/home')
+        router.push('/comps')
       }
       return result
     } catch (err) {

@@ -32,7 +32,7 @@ const SignInPage = () => {
       const result = await signInAction(formData)
       if (result.success) {
         toast.success('Sign in successfull')
-        router.push('/home')
+        router.push('/comps')
       }
       return result
     } catch (err) {

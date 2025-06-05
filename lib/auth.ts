@@ -1,11 +1,9 @@
-'use server'
 import { db } from '@/db'
 import { usersTable } from '@/db/schema'
 import { hash, compare } from 'bcrypt'
 import * as jose from 'jose'
 import { cookies } from 'next/headers'
 import { cache } from 'react'
-import { nanoid } from 'nanoid'
 interface JWTPayload {
   userId: string
   [key: string]: string | number | boolean | null | undefined
@@ -71,9 +69,10 @@ export const createSession = async (userId: string) => {
   }
 }
 
-export const getSession = async () => {
+export const getSession = cache(async () => {
   try {
     const cookieStore = await cookies()
+    console.log(cookieStore)
     const token = cookieStore.get('auth_token')?.value
     if (!token) {
       return null
@@ -98,7 +97,7 @@ export const getSession = async () => {
     console.error('Error getting session:', error)
     return null
   }
-}
+})
 const deleteSession = async () => {
   const cookieStore = cookies()
   ;(await cookieStore).delete('auth_token')

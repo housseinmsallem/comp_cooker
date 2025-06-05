@@ -1,11 +1,12 @@
 'use server'
-
+import { hashpassword } from './../../lib/auth'
 import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { usersTable } from '@/db/schema'
 import { getUserByEmail } from '@/lib/dal'
 import { z } from 'zod'
 import { createSession, createUser, verifyPassword } from '@/lib/auth'
+import { compare, hash } from 'bcrypt'
 const SignInSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email format'),
   password: z.string().min(1, 'Password is required'),
@@ -62,12 +63,14 @@ export const signInAction = async (formData: FormData) => {
     if (!validatePassword) {
       return {
         success: false,
-        message: 'Please validate password ',
-        error: 'Please Validate password',
+        message: 'Invalid Email or password',
+        error: 'Invalid Email or password',
+        password: data.password,
       }
     }
     await createSession(user[0].id.toString())
     return {
+      
       success: true,
       message: 'Session created successfully',
     }

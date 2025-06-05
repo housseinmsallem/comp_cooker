@@ -1,5 +1,4 @@
-'use cache'
-
+'use server'
 import { getSession } from '@/lib/auth'
 import { getRaidsByUserId } from '@/lib/dal'
 import RaidCard from '@/components/ui/raid-card'

@@ -11,6 +11,7 @@ async function main() {
   const raid: typeof raidsTable.$inferInsert = {
     name: 'Onyxia raid',
     game: 'Albion Online',
+    userId: 1,
   }
   const char: typeof characterTable.$inferInsert = {
     name: 'HallowFall',
