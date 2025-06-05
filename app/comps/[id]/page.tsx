@@ -1,4 +1,5 @@
-import AddPlayer from '@/components/ui/add-card'
+import AddCharCard from '@/components/ui/addCharCard'
+import AddPlayer from '@/components/ui/addCharCard'
 import PlayerCard from '@/components/ui/player-card'
 import { getSession } from '@/lib/auth'
 import { getCharsByRaidId } from '@/lib/dal'
@@ -19,7 +20,7 @@ const RaidPage = async ({ params }: { params: Promise<{ id: string }> }) => {
             tier={character.tier}
           />
         ))}
-        <AddPlayer />
+        <AddCharCard raidId={parseInt(id)} />
       </main>
     </>
   )

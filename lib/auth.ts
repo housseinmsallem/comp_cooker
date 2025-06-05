@@ -71,7 +71,7 @@ export const createSession = async (userId: string) => {
   }
 }
 
-export const getSession = cache(async () => {
+export const getSession = async () => {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get('auth_token')?.value
@@ -98,7 +98,7 @@ export const getSession = cache(async () => {
     console.error('Error getting session:', error)
     return null
   }
-})
+}
 const deleteSession = async () => {
   const cookieStore = cookies()
   ;(await cookieStore).delete('auth_token')

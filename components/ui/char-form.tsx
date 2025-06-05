@@ -1,5 +1,4 @@
 import { Label } from '@radix-ui/react-label'
-import { Link } from 'lucide-react'
 import React, { useActionState } from 'react'
 import { Button } from './button'
 import {
@@ -23,7 +22,7 @@ const initialState = {
   message: '',
   errors: undefined,
 }
-const CharForm = () => {
+const CharForm = ({ raidId }: { raidId: number }) => {
   const [state, formAction, isPending] = useActionState<
     ActionResponse,
     FormData
@@ -98,6 +97,7 @@ const CharForm = () => {
             Submit
           </Button>
         </CardFooter>
+        <input type="text" hidden value={raidId} name="raidId" />
       </form>
     </Card>
   )

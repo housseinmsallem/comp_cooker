@@ -18,7 +18,9 @@ export const raidsTable = pgTable('raids', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
   game: varchar({ length: 255 }).notNull(),
-  userId: integer().references(() => usersTable.id),
+  userId: integer()
+    .references(() => usersTable.id)
+    .notNull(),
 })
 export const characterTable = pgTable('characters', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
