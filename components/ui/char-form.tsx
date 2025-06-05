@@ -13,22 +13,23 @@ import {
 } from './card'
 import { Input } from './input'
 import { ActionResponse } from '@/app/actions/user'
-import { createCompAction } from '@/app/actions/comp'
 import toast from 'react-hot-toast'
 import { FormError } from './form-error'
+import { createCharAction } from '@/app/actions/character'
+import { Textarea } from './textarea'
 
 const initialState = {
   success: false,
   message: '',
   errors: undefined,
 }
-const CompForm = () => {
+const CharForm = () => {
   const [state, formAction, isPending] = useActionState<
     ActionResponse,
     FormData
   >(async (prevState: ActionResponse, formData: FormData) => {
     try {
-      const result = await createCompAction(formData)
+      const result = await createCharAction(formData)
       if (result.success) {
         toast.success('Comp created successfully')
       }
@@ -49,10 +50,8 @@ const CompForm = () => {
           <FormError>{state.message}</FormError>
         )}
         <CardHeader>
-          <CardTitle>Create a Composition</CardTitle>
-          <CardDescription>
-            Choose the according Game and make a comp.
-          </CardDescription>
+          <CardTitle>Create a Character</CardTitle>
+          <CardDescription>Do you thing.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-6">
@@ -60,7 +59,7 @@ const CompForm = () => {
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
-                type="name"
+                type="text"
                 placeholder="ex:Healer Dps 2v2"
                 name="name"
                 required
@@ -70,10 +69,26 @@ const CompForm = () => {
               )}
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="game">Game</Label>
-              <Input id="game" type="game" name="game" required />
-              {state?.errors?.game && (
-                <p className="text-sm text-red-500">{state.errors.game[0]}</p>
+              <Label htmlFor="role">Role</Label>
+              <Input id="role" type="text" name="role" required />
+              {state?.errors?.role && (
+                <p className="text-sm text-red-500">{state.errors.role[0]}</p>
+              )}
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="tier">Tier</Label>
+              <Input id="tier" type="text" name="tier" required />
+              {state?.errors?.tier && (
+                <p className="text-sm text-red-500">{state.errors.tier[0]}</p>
+              )}
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="description">Description</Label>
+              <Textarea id="description" name="description" required />
+              {state?.errors?.description && (
+                <p className="text-sm text-red-500">
+                  {state.errors.description[0]}
+                </p>
               )}
             </div>
           </div>
@@ -88,4 +103,4 @@ const CompForm = () => {
   )
 }
 
-export default CompForm
+export default CharForm

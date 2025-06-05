@@ -20,7 +20,7 @@ const RaidListPage = async () => {
             tier={raid.tier}
           />
         ))}
-        {<AddPlayer />}
+        {<AddPlayer variant={'Comp'} />}
       </main>
     </>
   )

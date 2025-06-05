@@ -9,10 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import CompForm from './comp-form'
+import CharForm from './char-form'
 interface CardVariant {
   variant: 'Comp' | 'Character'
 }
-const AddPlayer = ({ variant }: CardVariant) => {
+const AddCard = ({ variant }: CardVariant) => {
   return (
     <Dialog>
       <div>
@@ -20,7 +22,9 @@ const AddPlayer = ({ variant }: CardVariant) => {
           <DialogTrigger>
             <CirclePlus color="#90A1B9" size={64} />
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]"></DialogContent>
+          <DialogContent className="sm:max-w-[425px]">
+            {variant === 'Character' ? <CharForm /> : <CompForm />}
+          </DialogContent>
           <p className="text-slate-400 font-medium">Add Role</p>
           <p className="text-slate-500 text-sm text-center">
             Click to select a character for this slot.
@@ -31,4 +35,4 @@ const AddPlayer = ({ variant }: CardVariant) => {
   )
 }
 
-export default AddPlayer
+export default AddCard
