@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { characterTable, raidsTable, usersTable } from '@/db/schema'
 import { cache } from 'react'
+import { getSession } from './auth'
 
 export const getUserByEmail = cache(async (email: string) => {
   try {
@@ -15,18 +16,22 @@ export const getUserByEmail = cache(async (email: string) => {
     return null
   }
 })
-export const getRaidsByUserId = cache(async (id: number) => {
+export const getRaidsByUserId = async () => {
   try {
-    const results = db
-      .select()
-      .from(raidsTable)
-      .where(eq(raidsTable.userId, id))
-    return results || null
+    const session = await getSession()
+    console.log(session)
+    if (!session?.userId) throw new Error('Not authenticated')
+
+    const results = await db.query.raidsTable.findMany({
+      where: (raids, { eq }) => eq(raids.userId, Number(session.userId)),
+    })
+
+    return results
   } catch (err) {
     console.error('Error while fetching comps', err)
     return null
   }
-})
+}
 export const getCharsByRaidId = cache(async (id: number) => {
   try {
     const results = db

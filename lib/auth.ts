@@ -17,9 +17,10 @@ const JWT_EXPIRATION = '7d'
 const REFRESH_THRESHOLD = 24 * 60 * 60 //24hours in seconds
 
 export const generateJWT = async (payload: JWTPayload) => {
-  return await new jose.SignJWT()
+  return await new jose.SignJWT(payload)
     .setIssuedAt()
     .setExpirationTime(JWT_EXPIRATION)
+    .setProtectedHeader({ alg: 'HS256' })
     .sign(JWT_SECRET)
 }
 export async function verifyJWT(token: string): Promise<JWTPayload | null> {
@@ -53,6 +54,7 @@ export const createSession = async (userId: string) => {
   try {
     const token = await generateJWT({ userId })
     const cookieStore = await cookies()
+    console.log(cookieStore)
     cookieStore.set({
       name: 'auth_token',
       value: token,
@@ -72,7 +74,6 @@ export const createSession = async (userId: string) => {
 export const getSession = cache(async () => {
   try {
     const cookieStore = await cookies()
-    console.log(cookieStore)
     const token = cookieStore.get('auth_token')?.value
     if (!token) {
       return null

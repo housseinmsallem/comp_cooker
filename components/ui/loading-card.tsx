@@ -17,9 +17,9 @@ export default function LoadingCard() {
               <Skeleton />
             </span>
           </div>
-          <p className="text-slate-400 text-sm mb-6 line-clamp-3">
+          <span className="text-slate-400 text-sm mb-6 line-clamp-3">
             <Skeleton />
-          </p>
+          </span>
         </div>
 
         <div className="flex items-center justify-between">
