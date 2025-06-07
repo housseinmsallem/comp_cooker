@@ -4,6 +4,7 @@ import { hash, compare } from 'bcrypt'
 import * as jose from 'jose'
 import { cookies } from 'next/headers'
 import { cache } from 'react'
+import { mockDelay } from './utils'
 interface JWTPayload {
   userId: string
   [key: string]: string | number | boolean | null | undefined
@@ -54,7 +55,6 @@ export const createSession = async (userId: string) => {
   try {
     const token = await generateJWT({ userId })
     const cookieStore = await cookies()
-    console.log(cookieStore)
     cookieStore.set({
       name: 'auth_token',
       value: token,
@@ -71,7 +71,7 @@ export const createSession = async (userId: string) => {
   }
 }
 
-export const getSession = cache(async () => {
+export const getSession = async () => {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get('auth_token')?.value
@@ -79,9 +79,11 @@ export const getSession = cache(async () => {
       return null
     }
     const payload = await verifyJWT(token)
+    console.log(payload)
     if (!payload) {
       return null
     }
+
     return { userId: payload.userId }
   } catch (error) {
     // Handle the specific prerendering error
@@ -98,7 +100,7 @@ export const getSession = cache(async () => {
     console.error('Error getting session:', error)
     return null
   }
-})
+}
 const deleteSession = async () => {
   const cookieStore = cookies()
   ;(await cookieStore).delete('auth_token')

@@ -19,9 +19,9 @@ export const getUserByEmail = cache(async (email: string) => {
 export const getRaidsByUserId = async () => {
   try {
     const session = await getSession()
-    console.log(session)
-    if (!session?.userId) throw new Error('Not authenticated')
-
+    if (!session) {
+      return null
+    }
     const results = await db.query.raidsTable.findMany({
       where: (raids, { eq }) => eq(raids.userId, Number(session.userId)),
     })
@@ -32,7 +32,7 @@ export const getRaidsByUserId = async () => {
     return null
   }
 }
-export const getCharsByRaidId = cache(async (id: number) => {
+export const getCharsByRaidId = async (id: number) => {
   try {
     const results = db
       .select()
@@ -43,4 +43,4 @@ export const getCharsByRaidId = cache(async (id: number) => {
     console.error('Error while fetching comps', err)
     return null
   }
-})
+}

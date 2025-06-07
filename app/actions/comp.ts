@@ -4,6 +4,7 @@ import { db } from '@/db'
 import { raidsTable } from '@/db/schema'
 import { z } from 'zod'
 import { ActionResponse } from './user'
+import { getSession } from '@/lib/auth'
 const compSchema = z.object({
   name: z.string().min(1, 'Name is missing'),
   game: z.string().min(1, 'Game is missing'),
@@ -11,9 +12,17 @@ const compSchema = z.object({
 export type compData = z.infer<typeof compSchema>
 export const createCompAction = async (formData: FormData) => {
   try {
+    const session = await getSession()
+    if (!session) {
+      return {
+        success: false,
+        message: 'Error Checking session',
+      }
+    }
     const data = {
       name: formData.get('name') as string,
       game: formData.get('game') as string,
+      userId: Number(session.userId),
     }
     const validationResult = compSchema.safeParse(data)
     if (!validationResult.success) {
@@ -23,7 +32,7 @@ export const createCompAction = async (formData: FormData) => {
         errors: validationResult.error.flatten().fieldErrors,
       }
     }
-    const result = await createComp(data.name, data.game)
+    const result = await createComp(data.name, data.game, data.userId)
     if (!result) {
       return {
         success: false,
@@ -44,13 +53,18 @@ export const createCompAction = async (formData: FormData) => {
     }
   }
 }
-export const createComp = async (name: string, game: string) => {
+export const createComp = async (
+  name: string,
+  game: string,
+  userId: number
+) => {
   try {
     await db.insert(raidsTable).values({
       name,
       game,
+      userId,
     })
-    return { name, game }
+    return { name, game, userId }
   } catch (error) {
     console.error('Error creating Comp:', error)
     return null
