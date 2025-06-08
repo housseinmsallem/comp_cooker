@@ -1,5 +1,5 @@
 import { Label } from '@radix-ui/react-label'
-import React, { useActionState } from 'react'
+import React, { useActionState, useTransition } from 'react'
 import { Button } from './button'
 import {
   Card,
@@ -16,6 +16,7 @@ import toast from 'react-hot-toast'
 import { FormError } from './form-error'
 import { createCharAction } from '@/app/actions/character'
 import { Textarea } from './textarea'
+import { redirect, useRouter } from 'next/navigation'
 
 const initialState = {
   success: false,
@@ -23,6 +24,8 @@ const initialState = {
   errors: undefined,
 }
 const CharForm = ({ raidId }: { raidId: number }) => {
+  const router = useRouter()
+  const [isLoading, startTransition] = useTransition()
   const [state, formAction, isPending] = useActionState<
     ActionResponse,
     FormData
@@ -31,6 +34,9 @@ const CharForm = ({ raidId }: { raidId: number }) => {
       const result = await createCharAction(formData)
       if (result.success) {
         toast.success('Comp created successfully')
+        startTransition(() => {
+          router.refresh()
+        })
       }
       return result
     } catch (err) {
