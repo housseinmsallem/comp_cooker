@@ -1,3 +1,4 @@
+'use client'
 import { Label } from '@radix-ui/react-label'
 import React, { useActionState, useTransition } from 'react'
 import { Button } from './button'

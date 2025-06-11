@@ -1,3 +1,4 @@
+'use cache'
 import AddCharCard from '@/components/ui/addCharCard'
 import AddPlayer from '@/components/ui/addCharCard'
 import PlayerCard from '@/components/ui/player-card'

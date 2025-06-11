@@ -1,3 +1,4 @@
+'use cache'
 import { getSession } from '@/lib/auth'
 import Link from 'next/link'
 import { redirect, useRouter } from 'next/navigation'

@@ -1,3 +1,4 @@
+'use client'
 import { Label } from '@radix-ui/react-label'
 import { Link } from 'lucide-react'
 import React, { startTransition, useActionState, useTransition } from 'react'
